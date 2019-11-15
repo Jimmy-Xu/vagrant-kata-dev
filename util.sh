@@ -65,6 +65,9 @@ function show_usage(){
 EOF
 }
 
+# check scl and ruby
+checkdep
+
 ## main #################################################
 cd ${WORK_DIR}
 mkdir -p ${WORK_DIR}/${IMAGE_CACHE} ${WORK_DIR}/${TMP_DIR}
