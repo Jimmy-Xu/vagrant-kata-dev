@@ -89,12 +89,12 @@ function install_dependency_for_centos(){
     fi
 
     title "[for libvirt] ensure vagrant plugin "
-    for p in vagrant-libvirt vagrant-mutate
+    for p in vagrant-libvirt vagrant-mutate vagrant-hostmanager vagrant-sshfs
     do
       title "[for libvirt] ensure vagrant plugin : ${p} "
       vagrant plugin list | grep ${p} >/dev/null 2>&1
       if [ $? -ne 0 ];then
-        vagrant plugin install ${p} --plugin-clean-sources --plugin-source https://gems.ruby-china.com
+        vagrant plugin install ${p} --plugin-source https://gems.ruby-china.com
       fi
     done
     vagrant plugin list

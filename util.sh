@@ -38,9 +38,9 @@
 ################################################################
 . lib/config.sh
 . lib/common.sh
-. lib/centos.sh
+. lib/host/centos.sh
 . lib/image.sh
-
+. lib/vagrant.sh
 
 
 function show_usage(){
@@ -57,8 +57,10 @@ function show_usage(){
     list                     # show VM list via 'sudo -E vagrant list'
     status                   # show VM status via 'vagrant status'
     -----------------------------------------------------------------------------
+    config                   # show ssh config
     ssh                      # enter VM via 'vagrant ssh default'
-    console                  # enter VM via 'sudo -E virsh console kubernetes_default'
+    console                  # enter VM via 'sudo -E virsh console ${PROJECT}default'
+                               default account is vagrant:vagrant
     -----------------------------------------------------------------------------
 EOF
 }
@@ -86,10 +88,10 @@ case "$1" in
     vagrant_up
     ;;
   list)
-    sudo -E virsh list | awk 'NR==1 || /kubernetes_default/'
+    sudo -E virsh list | awk "NR==1 || /${PROJECT}/"
     ;;
   status)
-    vagrant status | sed -n '4,$p'
+    vagrant status
     ;;
   halt)
     vagrant halt
@@ -101,7 +103,10 @@ case "$1" in
     vagrant ssh default
     ;;
   console)
-    sudo -E virsh console kubernetes_default
+    sudo -E virsh console ${PROJECT}default
+    ;;
+  config)
+    vagrant ssh-config
     ;;
   *)
     show_usage

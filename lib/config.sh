@@ -1,6 +1,9 @@
 
 ################################################################
 WORK_DIR=$(cd `dirname $0`; pwd)
+
+PROJECT="vagrant-kata-dev_"
+
 TMP_DIR="../_tmp"
 IMAGE_CACHE="../_image"
 
@@ -31,9 +34,16 @@ LV_FEDORA22_NAME="libvirt/fedora/22-cloud-base"
 LV_FEDORA22_URL="https://download.fedoraproject.org/pub/fedora/linux/releases/22/Cloud/x86_64/Images/Fedora-Cloud-Base-Vagrant-22-20150521.x86_64.vagrant-libvirt.box"
 LV_FEDORA22_IMG="Fedora-Cloud-Base-Vagrant-22-20150521.x86_64.vagrant-libvirt.box"
 #------------------------------------------------
+LV_UBUNTU1804BOX_NAME="generic/ubuntu1804"
+LV_UBUNTU1804BOX_URL="https://vagrantcloud.com/generic/boxes/ubuntu1804/versions/2.0.0/providers/libvirt.box"
+LV_UBUNTU1804BOX_IMG="trusty-server-cloudimg-amd64-vagrant-disk1.box"
+#------------------------------------------------
 LV_CENTOS7BOX_NAME="libvirt/centos/7"
-LV_CENTOS7BOX_URL="https://vagrantcloud.com/centos/boxes/7/versions/1809.01/providers/libvirt.box"
-LV_CENTOS7BOX_IMG="CentOS-7-x86_64-Vagrant-v1809_01.LibVirt.box"
+LV_CENTOS7BOX_URL="https://vagrantcloud.com/centos/boxes/7/versions/1905.1/providers/libvirt.box"
+LV_CENTOS7BOX_IMG="CentOS-7-x86_64-Vagrant-1905_01.Libvirt.box"
+
+
+
 
 
 ##################################
