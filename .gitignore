@@ -1,2 +1,3 @@
 *.vagrant*
 lib/guest/centos/rpm
+lib/guest/centos/typescript

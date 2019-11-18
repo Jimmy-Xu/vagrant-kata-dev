@@ -10,12 +10,12 @@ if [ $? -ne 0 ];then
 fi
 
 
-if [ ! -d ~/.oh-my-zsh -o ! -f /bin/zsh ];then
+if [ -d ~/.oh-my-zsh -a -f /bin/zsh -a -f ~/.zshrc ];then
+  echo "> on-my-zsh installed, skip"
+else
   echo "> install oh-my-zsh"
   sudo -E yum install -y zsh
   sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-else
-  echo "> on-my-zsh installed, skip"
 fi
 
 
@@ -39,13 +39,24 @@ if [ $? -ne 0 ];then
 else
   echo "golang installed, skip"
 fi
-grep GOPATH ~/.bashrc >/dev/null 2>&1
+
+cecho "===================="
+echo "add GOPATH to shell"
+echo "===================="
+for CFG in ~/.bashrc ~/.zshrc
+do
+grep GOPATH $CFG >/dev/null 2>&1
 if [ $? -ne 0 ];then
-  cat > ~/.bashrc <<EOF
-export GOPATH=~/gopath
-export PATH=$GOPATH/bin:$PATH
-EOF
+  echo "add GOPATH to $CFG"
+  echo -e "cat >> $CFG <<EOF\n\
+export GOPATH=~/gopath\n\
+export PATH=\$GOPATH/bin:\$PATH\n\
+EOF" | sh
+else
+  echo "GOPATH in ~/.bashrc, skip"
 fi
+done
+
 
 echo "===================="
 echo "> install kata 1.9.1"
