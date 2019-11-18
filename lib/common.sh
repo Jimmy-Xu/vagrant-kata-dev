@@ -11,6 +11,7 @@ function title() {
 }
 
 function showenv() {
+  checkdep
   cat <<EOF
 
 ==========================================

@@ -1,5 +1,4 @@
 function install_dependency_for_centos(){
-
   title "ensure dependency for provider: '${PROVIDER}'"
 
   title "[for common] ensure vagrant installed"

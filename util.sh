@@ -65,8 +65,6 @@ function show_usage(){
 EOF
 }
 
-# check scl and ruby
-checkdep
 
 ## main #################################################
 cd ${WORK_DIR}
@@ -75,10 +73,11 @@ case "$1" in
   ensure_dependency)
     case $2 in
       centos)
+        checkdep
         install_dependency_for_centos
         ;;
       *)
-        quit "support centos only!"
+        quit "support centos only! please specify os"
         ;;
       esac
       showenv
@@ -88,6 +87,7 @@ case "$1" in
     prepare_image
     ;;
   run)
+    checkdep
     vagrant_up
     ;;
   list)

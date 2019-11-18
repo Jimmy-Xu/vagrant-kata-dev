@@ -74,7 +74,7 @@ Vagrant.configure("2") do |config|
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
   if Vagrant.has_plugin?("vagrant-sshfs")
-    config.vm.synced_folder "./lib/guest", "/home/vagrant/script", type: "sshfs"
+    config.vm.synced_folder "./lib/guest", "/home/vagrant/script", type: "sshfs"   # fuse-sshfs will be installed in guest vm
   end
 
   # Provider-specific configuration so you can fine-tune various
@@ -83,8 +83,8 @@ Vagrant.configure("2") do |config|
   #
   config.vm.provider "libvirt" do |libvirt|
     # Customize the amount of memory on the VM:
-    libvirt.memory = "1024"
-    libvirt.cpus = "1"
+    libvirt.memory = "2048"
+    libvirt.cpus = "2"
 
     # Management network device
     libvirt.management_network_device = 'virbr0'
@@ -97,6 +97,6 @@ Vagrant.configure("2") do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-
+    #bash -x /home/vagrant/script/centos.sh
   SHELL
 end

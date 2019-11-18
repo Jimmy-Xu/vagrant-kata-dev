@@ -41,9 +41,10 @@ LV_UBUNTU1804BOX_IMG="trusty-server-cloudimg-amd64-vagrant-disk1.box"
 LV_CENTOS7BOX_NAME="libvirt/centos/7"
 LV_CENTOS7BOX_URL="https://vagrantcloud.com/centos/boxes/7/versions/1905.1/providers/libvirt.box"
 LV_CENTOS7BOX_IMG="CentOS-7-x86_64-Vagrant-1905_01.Libvirt.box"
-
-
-
+#------------------------------------------------
+LV_CENTOS7BOX_NAME="libvirt/centos/8"
+LV_CENTOS7BOX_URL="https://vagrantcloud.com/centos/boxes/8/versions/1905.1/providers/libvirt.box"
+LV_CENTOS7BOX_IMG="CentOS-8-x86_64-Vagrant-1905_01.Libvirt.box"
 
 
 ##################################
