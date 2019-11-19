@@ -1,3 +1,8 @@
+#!/bin/bash
+
+set -xe
+
+
 echo "======================="
 echo "install docker 19.03.5"
 echo "======================="

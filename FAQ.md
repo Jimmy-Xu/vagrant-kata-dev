@@ -58,3 +58,35 @@ $ sudo virsh undefine vagrant-kata-dev_default
 
 $ ./util.sh destroy
 ```
+
+# The provider for this Vagrant-managed machine is reporting that it is not yet ready for SSH.
+
+error
+```
+The provider for this Vagrant-managed machine is reporting that it
+is not yet ready for SSH. Depending on your provider this can carry
+different meanings. Make sure your machine is created and running and
+try again. Additionally, check the output of `vagrant status` to verify
+that the machine is in the state that you expect. If you continue to
+get this error message, please view the documentation for the provider
+you're using.
+```
+
+solution
+```
+./util.sh halt
+./util.sh run
+```
+
+# Error: Package: fuse-sshfs-2.4-1.el6.x86_64 (epel) - Requires: fuse >= 2.2
+
+修改 ~/.vagrant.d/gems/2.4.9/gems/vagrant-sshfs-1.3.1/lib/vagrant-sshfs/cap/guest/redhat/sshfs_client.rb
+```
+  # Install sshfs (comes from epel repos)
+  machine.communicate.sudo("yum -y install fuse-sshfs")
+```
+为
+```
+  # Install sshfs (comes from epel repos)
+  machine.communicate.sudo("yum -y install http://mirror.centos.org/centos/7/os/x86_64/Packages/fuse-2.9.2-11.el7.x86_64.rpm fuse-sshfs")
+```

@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 BOX_IMAGE = "libvirt/centos/7"
+#BOX_IMAGE = "alios_20190923"
 HOSTNAME = "kata-dev"
-
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -68,14 +68,6 @@ Vagrant.configure("2") do |config|
    :mode => "bridge",
    :type => "bridge"
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-  if Vagrant.has_plugin?("vagrant-sshfs")
-    config.vm.synced_folder "./lib/guest", "/home/vagrant/script", type: "sshfs"   # fuse-sshfs will be installed in guest vm
-  end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -93,10 +85,24 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you are using for more
   # information on available options.
 
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+  if Vagrant.has_plugin?("vagrant-sshfs")
+    config.vm.synced_folder "./lib/guest", "/home/vagrant/script", type: "sshfs"   # fuse-sshfs will be installed in guest vm
+  end
+
+
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    #bash -x /home/vagrant/script/centos.sh
+      # sudo -E yum install -y epel-release
+      # wget -c http://mirror.centos.org/centos/7/os/x86_64/Packages/fuse-2.9.2-11.el7.x86_64.rpm
+      # sudo -E yum reinstall -y fuse-2.9.2-11.el7.x86_64.rpm
   SHELL
+
 end

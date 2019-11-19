@@ -1,12 +1,17 @@
+#!/bin/bash
+
+set -xe
+
+
 RPM_DIR=~/script/centos/rpm
 
 
 echo "======================="
 echo "install common"
 echo "======================="
-rpm -ql wget >/dev/null 2>&1
+rpm -ql wget git >/dev/null 2>&1
 if [ $? -ne 0 ];then
-  sudo -E yum install -y wget
+  sudo -E yum install -y wget git
 fi
 
 
@@ -18,15 +23,15 @@ else
   sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
-
-rpm -qa | grep elrepo-release
-if [ $? -ne 0 ];then
-  echo "> install ELRepo"
-  sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-  sudo yum install -y https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
-else
-  echo "> ELRepo instaleld, skip"
-fi
+sudo -E wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+#rpm -qa | grep elrepo-release
+# if [ $? -ne 0 ];then
+#   echo "> install ELRepo"
+#   sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+#   sudo yum install -y https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
+# else
+#   echo "> ELRepo instaleld, skip"
+# fi
 
 
 echo "===================="
@@ -40,7 +45,7 @@ else
   echo "golang installed, skip"
 fi
 
-cecho "===================="
+echo "===================="
 echo "add GOPATH to shell"
 echo "===================="
 for CFG in ~/.bashrc ~/.zshrc
@@ -53,7 +58,7 @@ export GOPATH=~/gopath\n\
 export PATH=\$GOPATH/bin:\$PATH\n\
 EOF" | sh
 else
-  echo "GOPATH in ~/.bashrc, skip"
+  echo "GOPATH in $CFG, skip"
 fi
 done
 
