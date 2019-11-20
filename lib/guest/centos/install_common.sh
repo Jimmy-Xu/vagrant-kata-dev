@@ -3,15 +3,15 @@
 set -xe
 
 
-RPM_DIR=~/script/centos/rpm
+KATA_RPM_DIR=~/script/centos/rpm/kata
 
 
 echo "======================="
 echo "install common"
 echo "======================="
-rpm -ql wget git >/dev/null 2>&1
+rpm -ql wget git net-tools nmap-ncat tree >/dev/null 2>&1
 if [ $? -ne 0 ];then
-  sudo -E yum install -y wget git
+  sudo -E yum install -y wget git net-tools nmap-ncat tree
 fi
 
 
@@ -23,15 +23,16 @@ else
   sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 
-sudo -E wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
-#rpm -qa | grep elrepo-release
-# if [ $? -ne 0 ];then
-#   echo "> install ELRepo"
-#   sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
-#   sudo yum install -y https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
-# else
-#   echo "> ELRepo instaleld, skip"
-# fi
+
+rpm -qa | grep elrepo-release
+if [ $? -ne 0 ];then
+  echo "> install ELRepo"
+  sudo -E rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+  sudo -E yum install -y https://www.elrepo.org/elrepo-release-7.0-4.el7.elrepo.noarch.rpm
+else
+  echo "> ELRepo instaleld, skip"
+fi
+sudo -E wget -O /etc/yum.repos.d/epel-aliyun.repo http://mirrors.aliyun.com/repo/epel-7.repo
 
 
 echo "===================="
@@ -63,9 +64,9 @@ fi
 done
 
 
-echo "===================="
-echo "> install kata 1.9.1"
-echo "===================="
+echo "======================="
+echo "> install kata 1.9 repo"
+echo "======================="
 if [ ! -f /etc/yum.repos.d/home:katacontainers:releases:x86_64:stable-1.9.repo ];then
   echo "install kata yum repo"
   cd /etc/yum.repos.d
@@ -75,32 +76,45 @@ else
 fi
 
 
-echo "> enter dir $RPM_DIR"
-mkdir -p $RPM_DIR
-cd $RPM_DIR
+echo "> enter dir $KATA_RPM_DIR"
+mkdir -p $KATA_RPM_DIR
+cd $KATA_RPM_DIR
 
+echo "========================="
+echo "> install qemu-lite"
+echo "========================="
 rpm -ql qemu-lite-data qemu-lite-bin qemu-lite > /dev/null 2>&1
 if [ $? -ne 0 ];then
   echo "> download qemu-lite"
   for f in qemu-lite qemu-lite-bin qemu-lite-data
   do
     wget -c "http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-1.9/CentOS_7/x86_64/${f}-2.11.0+git.87517afd72-6.1.x86_64.rpm"
+    echo "> install qemu-lite rpm"
+    sudo yum install -y *.rpm
   done
 else
   echo "> qemu-lite installed, skip"
 fi
 
+echo "========================="
+echo "> install qemu-vanilla"
+echo "========================="
 rpm -ql qemu-vanilla qemu-vanilla-data qemu-vanilla-bin qemu-guest-agent > /dev/null 2>&1
 if [ $? -ne 0 ];then
   echo "> download qemu-vanilla"
   for f in qemu-vanilla qemu-vanilla-bin qemu-vanilla-data
   do
     wget -c "http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-1.9/CentOS_7/x86_64/${f}-4.1.0+git.9e06029aea-6.1.x86_64.rpm"
+    echo "> install qemu-vanilla rpm"
+    sudo yum install -y *.rpm qemu-guest-agent
   done
 else
-  echo "> qemu-vanilla insalled, skip"
+  echo "> qemu-vanilla and qemu-guest-agent insalled, skip"
 fi
 
+echo "========================="
+echo "> download kata 1.9.1 rpm"
+echo "========================="
 rpm -ql kata-proxy kata-runtime kata-shim-bin kata-proxy-bin kata-linux-container kata-containers-image kata-shim kata-ksm-throttler > /dev/null 2>&1
 if [ $? -ne 0 ];then
   echo "> download kata"
@@ -110,9 +124,8 @@ if [ $? -ne 0 ];then
   done
   wget -c http://download.opensuse.org/repositories/home:/katacontainers:/releases:/x86_64:/stable-1.9/CentOS_7/x86_64/kata-linux-container-4.19.75.54-6.1.x86_64.rpm
 
-  echo "> install kata"
+  echo "> install kata rpm"
   sudo yum install -y *.rpm qemu-guest-agent
-
 else
   echo "> kata installed, skip"
 fi

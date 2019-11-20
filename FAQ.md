@@ -90,3 +90,13 @@ solution
   # Install sshfs (comes from epel repos)
   machine.communicate.sudo("yum -y install http://mirror.centos.org/centos/7/os/x86_64/Packages/fuse-2.9.2-11.el7.x86_64.rpm fuse-sshfs")
 ```
+
+# ~/script not mounted after guest os reboot
+
+```
+$ vagrant sshfs --mount
+==> default: Mounting SSHFS shared folder...
+==> default: Mounting folder via SSHFS: /home/xjimmy/gopath/src/github.com/jimmy-xu/vagrant-kata-dev/lib/guest => /home/vagrant/script
+==> default: Checking Mount..
+==> default: Folder Successfully Mounted!
+```

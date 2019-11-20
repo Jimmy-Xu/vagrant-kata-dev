@@ -52,6 +52,7 @@ function show_usage(){
     prepare_image            # prepare vagrant box
     -----------------------------------------------------------------------------
     run                      # 'vagrant up --provision --provider=${PROVIDER}'
+    mount                    # 'vagrant sshfs --mount'
     halt                     # 'vagrant halt'
     destroy                  # 'vagrant destroy'
     list                     # show VM list via 'sudo -E vagrant list'
