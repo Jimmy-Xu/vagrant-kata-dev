@@ -58,9 +58,9 @@ function show_usage(){
     list                     # show VM list via 'sudo -E vagrant list'
     status                   # show VM status via 'vagrant status'
     -----------------------------------------------------------------------------
-    config                   # show ssh config
-    ssh                      # enter VM via 'vagrant ssh default'
-    console                  # enter VM via 'sudo -E virsh console ${PROJECT}default'
+    config                   # show ssh config via 'vagrant ssh-config'
+    ssh                      # enter VM ssh via 'vagrant ssh default'
+    console                  # enter VM console via 'sudo -E virsh console ${PROJECT}default'
                                default account is vagrant:vagrant
     -----------------------------------------------------------------------------
 EOF
@@ -90,6 +90,9 @@ case "$1" in
   run)
     checkdep
     vagrant_up
+    ;;
+  mount)
+    vagrant sshfs --mount
     ;;
   list)
     sudo -E virsh list | awk "NR==1 || /${PROJECT}/"

@@ -56,7 +56,7 @@ if [ $? -ne 0 ];then
   echo "add GOPATH to $CFG"
   echo -e "cat >> $CFG <<EOF\n\
 export GOPATH=~/gopath\n\
-export PATH=\$GOPATH/bin:\$PATH\n\
+export PATH=~/gopath/bin:\$PATH\n\
 EOF" | sh
 else
   echo "GOPATH in $CFG, skip"
